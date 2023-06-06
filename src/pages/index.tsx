@@ -1,5 +1,7 @@
 import { useState,useEffect } from 'react'
 import Seo from '../../components/Seo'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 
@@ -11,6 +13,10 @@ interface Movie {
 }
 
 export default function Home() {
+  const router=useRouter()
+  const onClick=(id:number,title:string)=>{
+    router.push(`/movies/${title}/${id}`,)
+  }
   const [movies, setMovies] = useState<Movie[] | null>(null);
     useEffect(() => {
         (async () => {
@@ -33,10 +39,14 @@ export default function Home() {
       <Seo title="Home" />
       {movies === null && <h4>Loading...</h4>}
       {movies?.map((movie:Movie) => ( //moives에 데이터 없으면 아래코드 동작안함
-        <div className="movie" key={movie.id}>
-          <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
-          <h4>{movie.original_title}</h4>
-        </div>
+    
+          <div className="movie" key={movie.id}>
+            <img onClick={()=>onClick(movie.id,movie.original_title)} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
+            <Link href={`/movies/${movie.original_title}/${movie.id}`} 
+                  as={`/movies/${movie.id}`}>
+                <h4>{movie.original_title}</h4>
+            </Link>
+          </div> 
       ))}
       <style jsx>{`
         .container {
