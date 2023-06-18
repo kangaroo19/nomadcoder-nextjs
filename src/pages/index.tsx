@@ -77,7 +77,7 @@ export default function Home() {
 // 해결 방법으로는 movies 상태의 초기값을 null로 설정하고, 조건부 렌더링을 수정하여 movies가 null이거나 비어있는 경우에 Loading... 메시지를 표시하도록 변경할 수 있습니다.
 export async function getServerSideProps() { //서버측에서 실행되는 함수,이름은 고정
   const { results } = await (
-    await fetch(`http://localhost:3000/api/movies`)
+    await fetch(`http://localhost:3001/api/movies`)
   ).json();
   return {
     props: {
